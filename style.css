@@ -1,40 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
 body {
-    background-color: #F2F2F2;
+    background-color: #53A2BE;
+    font-family: 'Montserrat', sans-serif;
   }
-  
+
   header {
-    background-color: #F2F2F2;
-    color: #000;
+    background-color: #53A2BE;
+    color: #ffffff;
     text-align:center;
+    padding: 5px;
   }
-  
+
   .filter-buttons {
     margin: 0 auto;
     display: flex;
     justify-content: center;
-    background-color: #ccc;
-    color: #000;
-    
+    background-color: #397B84;
+    color: #ffffff;
+    box-shadow: none;
+    border-radius: 0;
   }
-  
+
   .filter-button {
-    background-color: #90EE90;
-    color: #000;
+    background-color: #53A2BE;
+    color: #ffffff;
     padding: 10px;
     margin: 5px;
     cursor: pointer;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
   }
-  
+
   .filter-button.active {
-    background-color: #008000;
-    color: #fff;
+    background-color: #1F4347;
+    color: #ffffff;
   }
-  
+
   .map-and-data {
-    background-color: #fff;
+    height: 500px;
+    background-color: #ffffff;
   }
-  
+
+  .map {
+    background-color: #F2F2F2;
+  }
+
   .data {
     background-color: #F2F2F2;
   }
-  
