@@ -9,7 +9,6 @@ body {
     background-color: #53A2BE;
     color: #ffffff;
     text-align:center;
-    padding: 5px;
   }
 
   .filter-buttons {
@@ -38,11 +37,13 @@ body {
   }
 
   .map-and-data {
-    height: 500px;
+    height: 800px;
     background-color: #ffffff;
   }
 
   .map {
+    height: 800px; 
+    width: 800px;
     background-color: #F2F2F2;
   }
 
