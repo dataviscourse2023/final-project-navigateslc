@@ -6,6 +6,7 @@ const globalApplicationState = {
   healthServices: null,
   busRoutes: null,
   trails: null,
+  groceryStores: null
 };
 
 // Button events
@@ -56,8 +57,9 @@ async function loadData () {
   const healthServices = await d3.csv('data/Salt_Lake_County_Public_Health_Services_Directory.csv');
   const busRoutes = await d3.json('data/UTA_Routes_and_Most_Recent_Ridership.geojson');
   const trails = await d3.json('data/Utah_Trails_and_Pathways.geojson');
+  const groceryStores = await d3.json('data/Utah_Grocery_And_Food_Stores__UDAF_.geojson')
 
-  return { cityBlocks, parks, healthServices, busRoutes, trails };
+  return { cityBlocks, parks, healthServices, busRoutes, trails, groceryStores };
   // return {parks, healthServices}
 }
 
@@ -78,5 +80,8 @@ loadData().then((loadedData) => {
   
   globalApplicationState.trails = loadedData.trails;
   console.log('Trails and Trailheads data successfully loaded', globalApplicationState.trails)
+
+  globalApplicationState.groceryStores = loadedData.groceryStores;
+  console.log('Grocery stores data successfully loaded', globalApplicationState.groceryStores)
 
 })
