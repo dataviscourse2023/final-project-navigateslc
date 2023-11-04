@@ -6,7 +6,10 @@ const globalApplicationState = {
   healthServices: null,
   busRoutes: null,
   trails: null,
-  groceryStores: null
+  groceryStores: null,
+  streetData: null,
+  crimeData: null,
+  assortedData: null
 };
 
 // Button events
@@ -58,8 +61,11 @@ async function loadData () {
   const busRoutes = await d3.json('data/UTA_Routes_and_Most_Recent_Ridership.geojson');
   const trails = await d3.json('data/Utah_Trails_and_Pathways.geojson');
   const groceryStores = await d3.json('data/Utah_Grocery_And_Food_Stores__UDAF_.geojson')
+  const streetData = await d3.json('data/Streets_with_Address_Ranges.geojson')
+  const crimeData = await d3.csv('data/CrimeByAreas.csv')
+  const assortedData = await d3.csv('data/assorted_data.csv')
 
-  return { cityBlocks, parks, healthServices, busRoutes, trails, groceryStores };
+  return { cityBlocks, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData };
   // return {parks, healthServices}
 }
 
@@ -83,5 +89,14 @@ loadData().then((loadedData) => {
 
   globalApplicationState.groceryStores = loadedData.groceryStores;
   console.log('Grocery stores data successfully loaded', globalApplicationState.groceryStores)
+
+  globalApplicationState.streetData = loadedData.streetData;
+  console.log('Street data successfully loaded', globalApplicationState.streetData)
+
+  globalApplicationState.crimeData = loadedData.crimeData;
+  console.log('Crime data successfully loaded', globalApplicationState.crimeData)
+
+  globalApplicationState.assortedData = loadedData.assortedData;
+  console.log('Assorted data successfully loaded', globalApplicationState.assortedData)
 
 })
