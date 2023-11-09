@@ -36,14 +36,21 @@ filterButtons.forEach(button => {
     button.classList.add('active');
   });
 });
-
+var southWest = L.latLng(40, -111),
+northEast = L.latLng(41, -112),
+bounds = L.latLngBounds(southWest, northEast);
 
 // Loading the map
-var map = L.map('map').setView([40.7608,-111.8910], 100);
+var map = L.map('map').setView([40.7608,-111.8910], 10)
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
+    maxZoom: 100,
+    minZoom:10
    // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
 }).addTo(map);
+
+map.setMaxBounds(bounds);
+
+
 var marker = L.marker([40.7608,-111.8910]).addTo(map);
 
 function onMapClick(e) {
