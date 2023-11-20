@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
   crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@30.2.1/dist/ag-grid-community.min.js"></script>
 </head>
 <body>
   <header>
@@ -17,7 +18,7 @@
   </header>
 
   <div class="filter-buttons">
-    <button class="filter-button active" data-action="block-wise">Block-wise</button>
+    <button class="filter-button" data-action="block-wise">Block-wise</button>
     <button class="filter-button" data-action="routes-trails">Routes/Trails</button>
     <button class="filter-button" data-action="zoom-into-u-of-u">Zoom into U of U</button>
     <button class="filter-button" data-action="macroscopic-view">Macroscopic View</button>
@@ -27,10 +28,12 @@
     <div id = "map" class="map">
       </div>
 
-    <div class="data">
+    <div id = "data" class="data">
       </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/bus_list.js"></script>
 </body>
 </html>
