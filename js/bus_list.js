@@ -1,11 +1,15 @@
-function bus_route()// Need to make the bus routes in a list, for some reason that is not done. Else the bus route visualization is done. 
+function bus_route()
 {
     block_layer.clearLayers();
-    bus_list = d3.select('#data').append('g')
+    const busListContainer = d3.select('#data').append('ul').style('list-style-type', 'none');
+
     for(let i = 0; i< globalApplicationState.busRoutes['features'].length;i++)
     {
-    bus_name = bus_list.append('text').attr('x',0).attr('y',20+(i*20)).text(globalApplicationState.busRoutes['features'][i]['properties']['LineName'])
-    bus_name.on('click',function(mouse){
+    const listItem = busListContainer.append('li').style('margin-bottom', '5px');
+    const busName = listItem.append('span').text(globalApplicationState.busRoutes['features'][i]['properties']['LineName']);
+    listItem.append('br');
+
+    busName.on('click',function(mouse){
         console.log("check")
         map.eachLayer(function (layer) {  
             if(layer['feature'] != undefined)
