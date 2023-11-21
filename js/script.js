@@ -36,6 +36,7 @@ const globalApplicationState = {
 var map;
 var block_layer;
 var bus_route_layer;
+var trail_route_layer;
 
 loadData().then((loadedData) => {
 
@@ -74,26 +75,55 @@ loadData().then((loadedData) => {
   render_map()
 
   // Button events
+  let isBlockWiseClicked = false;
+  let isTrailsClicked = false;
+  let isRoutesClicked = false;
+  let isUofUClicked = false;
+  let isMacroscopicClicked = false;
   const filterButtons = document.querySelectorAll('.filter-button');
   filterButtons.forEach(button => {
     button.addEventListener('click', () => {
       const action = button.getAttribute('data-action');
 
       // Filter the data based on the selected action
-      if (action === 'block-wise') {
-        // Filter the data to show only block-wise views
-        block_group_layer()
-      } else if (action === 'bus-routes') {
+      if (action === 'block-wise' && !isBlockWiseClicked) {
+      // Filter the data to show only block-wise views
+        block_group_layer();
+        isBlockWiseClicked = true;
+      } else {
+        isBlockWiseClicked = false;
+        block_layer.clearLayers()
+      }  
+      if (action === 'bus-routes' && !isRoutesClicked) {
         // Filter the data to show only bus routes
-        bus_route()
-      } else if (action === 'trails') {
+        bus_route();
+        isRoutesClicked = true;
+      } else {
+        bus_route_layer.clearLayers();
+        isRoutesClicked = false;
+      }  
+      if (action === 'trails' && !isTrailsClicked) {
         // Filter the data to show only trails
-        trail_route()
-      } else if (action === 'zoom-into-u-of-u') {
-        // Zoom the map into the University of Utah
-      } else if (action === 'macroscopic-view') {
-        // Filter the data to show only macroscopic views
+        trail_route();
+        isTrailsClicked = true;
+      } else {
+        trail_route_layer.clearLayers();
+        isTrailsClicked = false;
       }
+      if (action === 'zoom-into-u-of-u' && isUofUClicked) {
+        // Zoom the map into the University of Utah
+        isUofUClicked = true;
+      } else {
+        isUofUClicked = false;
+      } 
+      if (action === 'macroscopic-view' && !isMacroscopicClicked) {
+        // Filter the data to show only macroscopic views
+        isMacroscopicClicked = true;
+      } else {
+        isMacroscopicClicked = false;
+      }
+      console.log(isBlockWiseClicked);
+      console.log(isTrailsClicked);
 
       // Change the color of the active filter button
       filterButtons.forEach(button => {

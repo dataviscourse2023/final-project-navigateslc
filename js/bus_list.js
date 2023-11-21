@@ -1,7 +1,6 @@
 function bus_route()
 {   
     d3.select('#data').selectAll('ul').remove();
-    // trail_route_layer.clearLayers();
     block_layer.clearLayers();
     const busListContainer = d3.select('#data').append('ul').style('list-style-type', 'none');
 
