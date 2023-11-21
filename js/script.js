@@ -81,11 +81,13 @@ loadData().then((loadedData) => {
 
       // Filter the data based on the selected action
       if (action === 'block-wise') {
-      // Filter the data to show only block-wise views
+        // Filter the data to show only block-wise views
         block_group_layer()
-      } else if (action === 'routes-trails') {
+      } else if (action === 'bus-routes') {
+        // Filter the data to show only bus routes
         bus_route()
-        // Filter the data to show only routes and trails
+      } else if (action === 'trails') {
+        // Filter the data to show only trails
       } else if (action === 'zoom-into-u-of-u') {
         // Zoom the map into the University of Utah
       } else if (action === 'macroscopic-view') {
