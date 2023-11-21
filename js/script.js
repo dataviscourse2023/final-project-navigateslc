@@ -88,6 +88,7 @@ loadData().then((loadedData) => {
         bus_route()
       } else if (action === 'trails') {
         // Filter the data to show only trails
+        trail_route()
       } else if (action === 'zoom-into-u-of-u') {
         // Zoom the map into the University of Utah
       } else if (action === 'macroscopic-view') {

@@ -28,6 +28,7 @@ function render_map()
 
   block_layer = L.layerGroup().addTo(map);
   bus_route_layer = L.layerGroup().addTo(map);
+  trail_route_layer = L.layerGroup().addTo(map);
 }
 
 function block_group_layer()

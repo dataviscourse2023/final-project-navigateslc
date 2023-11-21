@@ -1,5 +1,7 @@
 function bus_route()
-{
+{   
+    d3.select('#data').selectAll('ul').remove();
+    // trail_route_layer.clearLayers();
     block_layer.clearLayers();
     const busListContainer = d3.select('#data').append('ul').style('list-style-type', 'none');
 
@@ -25,5 +27,3 @@ function bus_route()
 }
 
 //Literally need to coopy the above function for trails.
-
-//I shall complete the landmarks rendering soon. And even the heat map in the macroscopic view.
