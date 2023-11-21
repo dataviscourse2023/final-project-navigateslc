@@ -12,7 +12,6 @@ function bus_route()
     listItem.append('br');
 
     busName.on('click',function(mouse){
-        console.log("check")
         map.eachLayer(function (layer) {  
             if(layer['feature'] != undefined)
             {
@@ -21,9 +20,6 @@ function bus_route()
          });
          geojson = L.geoJson(globalApplicationState.busRoutes['features'][i]).addTo(bus_route_layer);
          map.setView([globalApplicationState.busRoutes['features'][i]['geometry']['coordinates'][0][0][1],globalApplicationState.busRoutes['features'][i]['geometry']['coordinates'][0][0][0]],10)
-         console.log(globalApplicationState.busRoutes['features'][i]['geometry']['coordinates'][0][0])
-    })
+    });
     }
 }
-
-//Literally need to coopy the above function for trails.

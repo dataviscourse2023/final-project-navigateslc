@@ -20,7 +20,7 @@ function trail_route() {
                 });
 
                 geojson = L.geoJson(globalApplicationState.trails['features'][i]).addTo(trail_route_layer);
-                map.setView([globalApplicationState.trails['features'][i]['geometry']['coordinates'][0][0][1], globalApplicationState.trails['features'][i]['geometry']['coordinates'][0][0][0]], 10);
+                map.setView([globalApplicationState.trails['features'][i]['geometry']['coordinates'][0][0][1], globalApplicationState.trails['features'][i]['geometry']['coordinates'][0][0][0]], 15);
             });
         }
     }
