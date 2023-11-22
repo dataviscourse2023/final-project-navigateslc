@@ -9,16 +9,16 @@ async function loadData () {
   const groceryStores = await d3.json('data/Utah_Grocery_And_Food_Stores__UDAF_.geojson')
   const streetData = await d3.json('data/Streets_with_Address_Ranges.geojson')
   const crimeData = await d3.csv('data/CrimeByAreas.csv')
-  const assortedData = await d3.csv('data/assorted_data.csv')
+  const assortedData = await d3.csv('data/new_assorted_data.csv')
+  const rentData = await d3.csv('data/new_rent_data.csv')
 
-  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData };
+  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData, rentData };
   // return {parks, healthServices}
 }
 
 
 // Global variable containing data
 const globalApplicationState = {
-  selectedLocations: [],
   cityBlocks: null,
   BlockGroups: null,
   parks: null,
@@ -29,6 +29,7 @@ const globalApplicationState = {
   streetData: null,
   crimeData: null,
   assortedData: null,
+  rentData: null,
   selectedBlockGroup: '',
   selectedbusRoute: ''
 };
@@ -70,6 +71,8 @@ loadData().then((loadedData) => {
 
   globalApplicationState.assortedData = loadedData.assortedData;
   //console.log('Assorted data successfully loaded', globalApplicationState.assortedData)
+
+  globalApplicationState.rentData = loadedData.rentData;
 
 
   render_map()
@@ -122,8 +125,8 @@ loadData().then((loadedData) => {
       } else {
         isMacroscopicClicked = false;
       }
-      console.log(isBlockWiseClicked);
-      console.log(isTrailsClicked);
+      // console.log(isBlockWiseClicked);
+      // console.log(isTrailsClicked);
 
       // Change the color of the active filter button
       filterButtons.forEach(button => {

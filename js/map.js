@@ -39,27 +39,53 @@ function block_group_layer()
     //bind click
     layer.on('click', function (e) {
       map.eachLayer(function (layer) {
-       if(layer['feature'] != undefined)
-       {
-        //console.log(layer['feature']['properties']['final_key'])
-        if(layer['feature']['properties']['final_key'] == globalApplicationState.selectedBlockGroup )
-        {
-          layer.setStyle(default_block_group);
+        if (layer['feature'] != undefined) {
+          if (layer['feature']['properties']['final_key'] == globalApplicationState.selectedBlockGroup) {
+            layer.setStyle(default_block_group);
+          }
         }
-       }
-    });
+      });
 
-    globalApplicationState.selectedBlockGroup = feature['properties']['final_key']
-    layer.bringToFront();
-    layer.setStyle(highlight_block_group);
+      globalApplicationState.selectedBlockGroup = feature['properties']['final_key'];
+      layer.bringToFront();
+      layer.setStyle(highlight_block_group);
 
-    // Add the code for the block wise circle visualization here or call the responsible function here. 
+      // Add the code for the block wise circle visualization here or call the responsible function here.
+
+      // console.log(globalApplicationState.selectedBlockGroup);
+
+      // Filter assorted_data based on selectedBlockGroup
+      var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
+        return data['final_key'] == globalApplicationState.selectedBlockGroup;
+      });
+      // console.log(filteredAssortedData[0]);
+
+      var filteredRentData = globalApplicationState.rentData.filter(function (data) {
+        return data['final_key'] == globalApplicationState.selectedBlockGroup;
+      });
+      // console.log(filteredRentData[0]);
+
+      var data_for_radar_chart = {MedianHouseholdIncome: filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)'], 
+                                  PopulationDensity: filteredAssortedData[0]['Population Density (Per Sq. Mile)'], 
+                                  MedianRent: filteredRentData[0].MedianGrossRent, 
+                                  GenderRatio: filteredAssortedData[0]['Total Population: Male']/filteredAssortedData[0]['Total Population: Female'], 
+                                  FractionOfYouthPopulation: (parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population: 1'])}
+      
+      
+      console.log(data_for_radar_chart);
+
+      var data_for_donut_chart = {RenterOccupied: filteredAssortedData[0]['Occupied Housing Units: Renter Occupied'],
+                                  OwnerOccupied: filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']}
+      
+      console.log(data_for_donut_chart);
+      
+      
 
     });
 
 }
 
-console.log(globalApplicationState)
+// console.log(globalApplicationState)
 geojson = L.geoJson(globalApplicationState.BlockGroups,{style: default_block_group, onEachFeature: click_block_group}).addTo(block_layer);
 
 

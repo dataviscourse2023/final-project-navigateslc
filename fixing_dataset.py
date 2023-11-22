@@ -25,10 +25,10 @@ pattern = r"Block Group (\d+), Census Tract (\d+)(?:\.(\d{2}))?"
 # print(test_string)
 # print(key)
 
-dataset = pd.read_csv("data/assorted_data.csv")
+dataset = pd.read_csv("data/rent_data.csv")
 
 def extract_final_key(row):
-    match = re.search(pattern, row["Qualifying Name"])
+    match = re.search(pattern, row["Geo_QName"])
     if match:
         block_number = match.group(1)
         tract_whole = match.group(2)
@@ -43,4 +43,4 @@ dataset["final_key"] = dataset.apply(extract_final_key, axis=1)
 # Display the updated DataFrame
 print(dataset.head())
 
-dataset.to_csv("data/new_assorted_data.csv")
+dataset.to_csv("data/new_rent_data.csv")

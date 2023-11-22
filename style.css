@@ -19,6 +19,7 @@ header {
 .filter-buttons {
   margin: 0 auto;
   display: flex;
+  width: 100%;
   justify-content: center;
   background-color: #397B84;
   color: #ffffff;
