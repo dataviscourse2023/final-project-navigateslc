@@ -19,6 +19,7 @@ header {
 .filter-buttons {
   margin: 0 auto;
   display: flex;
+  width: 100%;
   justify-content: center;
   background-color: #397B84;
   color: #ffffff;
@@ -61,4 +62,8 @@ header {
   width: 50%;
   overflow: scroll;
   background-color: #F2F2F2;
+}
+
+.macroscopic {
+  width: 100%;
 }
