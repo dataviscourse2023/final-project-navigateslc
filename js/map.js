@@ -56,12 +56,10 @@ function block_group_layer()
       var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
         return data['final_key'] == globalApplicationState.selectedBlockGroup;
       });
-      // console.log(filteredAssortedData[0]);
 
       var filteredRentData = globalApplicationState.rentData.filter(function (data) {
         return data['final_key'] == globalApplicationState.selectedBlockGroup;
       });
-      // console.log(filteredRentData[0]);
 
       var data_for_radar_chart = {MedianHouseholdIncome: filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)'], 
                                   PopulationDensity: filteredAssortedData[0]['Population Density (Per Sq. Mile)'], 
@@ -81,9 +79,7 @@ function block_group_layer()
 
 }
 
-// console.log(globalApplicationState)
 geojson = L.geoJson(globalApplicationState.BlockGroups,{style: default_block_group, onEachFeature: click_block_group}).addTo(block_layer);
-
 
 }
 

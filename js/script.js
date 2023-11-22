@@ -11,8 +11,9 @@ async function loadData () {
   const crimeData = await d3.csv('data/CrimeByAreas.csv')
   const assortedData = await d3.csv('data/new_assorted_data.csv')
   const rentData = await d3.csv('data/new_rent_data.csv')
+  const rentByAreaData = await d3.csv('data/Utah_rent_by_area.csv')
 
-  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData, rentData };
+  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData, rentData, rentByAreaData };
   // return {parks, healthServices}
 }
 
@@ -30,6 +31,7 @@ const globalApplicationState = {
   crimeData: null,
   assortedData: null,
   rentData: null,
+  rentByAreaData: null,
   selectedBlockGroup: '',
   selectedbusRoute: ''
 };
@@ -73,6 +75,8 @@ loadData().then((loadedData) => {
   //console.log('Assorted data successfully loaded', globalApplicationState.assortedData)
 
   globalApplicationState.rentData = loadedData.rentData;
+
+  globalApplicationState.rentByAreaData = loadedData.rentByAreaData;
 
 
   render_map()
@@ -122,11 +126,10 @@ loadData().then((loadedData) => {
       if (action === 'macroscopic-view' && !isMacroscopicClicked) {
         // Filter the data to show only macroscopic views
         isMacroscopicClicked = true;
+        macroscopic_view();
       } else {
         isMacroscopicClicked = false;
       }
-      // console.log(isBlockWiseClicked);
-      // console.log(isTrailsClicked);
 
       // Change the color of the active filter button
       filterButtons.forEach(button => {
