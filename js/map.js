@@ -70,15 +70,18 @@ function block_group_layer()
                                   FractionOfYouthPopulation: ((parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population'])).toFixed(2)}
       
       
-      console.log(data_for_radar_chart);
+      // console.log(data_for_radar_chart);
 
       var data_for_donut_chart = {RenterOccupied: filteredAssortedData[0]['Occupied Housing Units: Renter Occupied'],
                                   OwnerOccupied: filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']}
       
-      console.log(data_for_donut_chart);
+      // console.log(data_for_donut_chart);
 
-      plotRadarChart(data_for_radar_chart);
-      plotDonutChart(data_for_donut_chart);
+      globalApplicationState.radarChartData = data_for_radar_chart;
+      globalApplicationState.donutChartData = data_for_donut_chart; 
+
+      plotRadarChart();
+      plotDonutChart();
 
     });
 

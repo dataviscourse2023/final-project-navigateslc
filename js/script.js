@@ -32,8 +32,8 @@ const globalApplicationState = {
   rentData: null,
   selectedBlockGroup: '',
   selectedbusRoute: '',
-  radarChart: null,
-  donutChart: null
+  radarChartData: null,
+  donutChartData: null
 };
 
 var map;
