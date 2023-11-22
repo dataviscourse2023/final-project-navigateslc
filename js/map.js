@@ -50,9 +50,7 @@ function block_group_layer()
       layer.bringToFront();
       layer.setStyle(highlight_block_group);
 
-      // Add the code for the block wise circle visualization here or call the responsible function here.
-
-      // console.log(globalApplicationState.selectedBlockGroup);
+      // Add the code for the block wise circle visualization here.
 
       // Filter assorted_data based on selectedBlockGroup
       var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
@@ -68,8 +66,8 @@ function block_group_layer()
       var data_for_radar_chart = {MedianHouseholdIncome: filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)'], 
                                   PopulationDensity: filteredAssortedData[0]['Population Density (Per Sq. Mile)'], 
                                   MedianRent: filteredRentData[0].MedianGrossRent, 
-                                  GenderRatio: filteredAssortedData[0]['Total Population: Male']/filteredAssortedData[0]['Total Population: Female'], 
-                                  FractionOfYouthPopulation: (parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population: 1'])}
+                                  GenderRatio: (filteredAssortedData[0]['Total Population: Male']/filteredAssortedData[0]['Total Population: Female']).toFixed(2), 
+                                  FractionOfYouthPopulation: ((parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population'])).toFixed(2)}
       
       
       console.log(data_for_radar_chart);
@@ -78,8 +76,6 @@ function block_group_layer()
                                   OwnerOccupied: filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']}
       
       console.log(data_for_donut_chart);
-      
-      
 
     });
 

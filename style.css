@@ -63,3 +63,7 @@ header {
   overflow: scroll;
   background-color: #F2F2F2;
 }
+
+.macroscopic {
+  width: 100%;
+}
