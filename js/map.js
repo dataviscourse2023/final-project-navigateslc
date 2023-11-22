@@ -50,7 +50,7 @@ function block_group_layer()
       layer.bringToFront();
       layer.setStyle(highlight_block_group);
 
-      // Add the code for the block wise circle visualization here.
+      // Add the code for the block wise visualizations here.
 
       // Filter assorted_data based on selectedBlockGroup
       var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
@@ -77,6 +77,9 @@ function block_group_layer()
       
       console.log(data_for_donut_chart);
 
+      plotRadarChart(data_for_radar_chart);
+      plotDonutChart(data_for_donut_chart);
+
     });
 
 }
@@ -86,5 +89,3 @@ geojson = L.geoJson(globalApplicationState.BlockGroups,{style: default_block_gro
 
 
 }
-
-
