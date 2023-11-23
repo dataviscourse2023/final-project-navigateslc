@@ -94,12 +94,12 @@ loadData().then((loadedData) => {
       if (action === 'block-wise' && !isBlockWiseClicked) {
       // Filter the data to show only block-wise views
         map.setView([40.7608,-111.8910], 10);
-        // field = ""
-        // globalApplicationState.selectedBlockGroup =  ""
-        // block_layer.clearLayers();
-        // bus_route_layer.clearLayers();
-        // trail_route_layer.clearLayers();
-        // d3.select('#data').selectAll('*').remove();
+        field = ""
+        globalApplicationState.selectedBlockGroup =  ""
+        block_layer.clearLayers();
+        bus_route_layer.clearLayers();
+        trail_route_layer.clearLayers();
+        d3.select('#data').selectAll('*').remove();
         block_group_layer();
         heatmap_toggle();
         isBlockWiseClicked = true;
@@ -109,10 +109,10 @@ loadData().then((loadedData) => {
       }  
       if (action === 'bus-routes' && !isRoutesClicked) {
         // Filter the data to show only bus routes
-        // block_layer.clearLayers();
-        // bus_route_layer.clearLayers();
-        // trail_route_layer.clearLayers();
-        // d3.select('#data').selectAll('*').remove();
+        block_layer.clearLayers();
+        bus_route_layer.clearLayers();
+        trail_route_layer.clearLayers();
+        d3.select('#data').selectAll('*').remove();
         bus_route();
         isRoutesClicked = true;
       } else {
@@ -121,10 +121,10 @@ loadData().then((loadedData) => {
       }  
       if (action === 'trails' && !isTrailsClicked) {
         // Filter the data to show only trails
-        // block_layer.clearLayers();
-        // bus_route_layer.clearLayers();
-        // trail_route_layer.clearLayers();
-        // d3.select('#data').selectAll('*').remove();
+        block_layer.clearLayers();
+        bus_route_layer.clearLayers();
+        trail_route_layer.clearLayers();
+        d3.select('#data').selectAll('*').remove();
         trail_route();
         isTrailsClicked = true;
       } else {

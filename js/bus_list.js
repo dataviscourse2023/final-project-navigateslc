@@ -10,7 +10,7 @@ function bus_route()
     for(let i = 0; i< globalApplicationState.busRoutes['features'].length;i++)
     {
     const listItem = busListContainer.append('li').style('margin-bottom', '5px');
-    const busName = listItem.append('span').text(globalApplicationState.busRoutes['features'][i]['properties']['LineName']);
+    const busName = listItem.append('span').text(globalApplicationState.busRoutes['features'][i]['properties']['LineAbbr'] + " : " + globalApplicationState.busRoutes['features'][i]['properties']['LineName']);
     listItem.append('br');
 
     busName.on('click',function(mouse){
