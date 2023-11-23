@@ -96,7 +96,8 @@ loadData().then((loadedData) => {
       if (action === 'block-wise' && !isBlockWiseClicked) {
       // Filter the data to show only block-wise views
         block_group_layer();
-        isBlockWiseClicked = true;
+        if(!isMacroscopicClicked)
+          isBlockWiseClicked = true;
       } else {
         isBlockWiseClicked = false;
         block_layer.clearLayers()
@@ -104,7 +105,8 @@ loadData().then((loadedData) => {
       if (action === 'bus-routes' && !isRoutesClicked) {
         // Filter the data to show only bus routes
         bus_route();
-        isRoutesClicked = true;
+        if(!isMacroscopicClicked)
+          isRoutesClicked = true;
       } else {
         bus_route_layer.clearLayers();
         isRoutesClicked = false;
@@ -112,7 +114,8 @@ loadData().then((loadedData) => {
       if (action === 'trails' && !isTrailsClicked) {
         // Filter the data to show only trails
         trail_route();
-        isTrailsClicked = true;
+        if(!isMacroscopicClicked)
+          isTrailsClicked = true;
       } else {
         trail_route_layer.clearLayers();
         isTrailsClicked = false;
