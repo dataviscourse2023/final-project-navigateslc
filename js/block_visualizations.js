@@ -10,7 +10,7 @@ function plotRadarChart() {
         labelFactor: 1.25,
         wrapWidth: 60,
         opacityArea: 0.35,
-        dotRadius: 4,
+        dotRadius: 8,
         opacityCircles: 0.1,
         strokeWidth: 2,
         roundStrokes: true,
@@ -123,10 +123,6 @@ function plotRadarChart() {
         .text(function(d){return d})
         .call(wrap, cfg.wrapWidth);
 
-    /////////////////////////////////////////////////////////
-    ///////////// Draw the radar chart blobs ////////////////
-    /////////////////////////////////////////////////////////
-
     var radarLine = d3.lineRadial()
     .radius(function(d) { return rScale(d.value); })
     .angle(function(d, i) { return i * angleSlice; });
@@ -198,11 +194,6 @@ function plotRadarChart() {
         .style("fill-opacity", 0.8)
         .transition().duration(1000);
 
-
-    /////////////////////////////////////////////////////////
-    //////// Append invisible circles for tooltip ///////////
-    /////////////////////////////////////////////////////////
-
     //Wrapper for the invisible circles on top
     var blobCircleWrapper = g.selectAll(".radarCircleWrapper")
         .data(data)
@@ -230,23 +221,21 @@ function plotRadarChart() {
             .attr('y', newY)
             .text((d.value * 100).toFixed(2) + "%")
             .transition().duration(200)
-            .style('opacity', 1);
+            // .style('opacity', 1);
+            .style("visibility", "visible");
         })
         .on("mouseout", function(){
             tooltip.transition().duration(200)
-                .style("opacity", 0);
+                // .style("opacity", 0);
+                .style("visibility", "hidden");
         });
         
     //Set up the small tooltip for when you hover over a circle
     var tooltip = g.append("text")
         .attr("class", "tooltip")
-        .style("opacity", 0);
+        // .style("opacity", 0);
+        .style("visibility", "hidden");
 
-    /////////////////////////////////////////////////////////
-    /////////////////// Helper Function /////////////////////
-    /////////////////////////////////////////////////////////
-
-    //Taken from http://bl.ocks.org/mbostock/7555321
     //Wraps SVG text	
     function wrap(text, width) {
     text.each(function() {
@@ -275,7 +264,6 @@ function plotRadarChart() {
     }
 
 }
-
 
 
 function plotDonutChart() {

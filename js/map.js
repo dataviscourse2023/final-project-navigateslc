@@ -10,6 +10,9 @@ function render_map()
    // attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
   }).addTo(map);
 
+  // Adding scale for map
+  L.control.scale().addTo(map);
+
   block_layer = L.layerGroup().addTo(map);
   bus_route_layer = L.layerGroup().addTo(map);
   trail_route_layer = L.layerGroup().addTo(map);
