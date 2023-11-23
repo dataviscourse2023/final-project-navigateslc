@@ -162,7 +162,7 @@ function rent_macroscopic_view() {
             lineToolTip.transition()
                 .duration(200)
                 .style('visibility', 'visible');
-            lineToolTip.text(dateFormatter(d.date)+' : ' + d.rent)
+            lineToolTip.text(dateFormatter(d.date)+' : $' + d.rent)
                 .style('left', (event.pageX) + 'px')
                 .style('top', (event.pageY - 30) + 'px')
                 .style('pointer-events', 'none');
