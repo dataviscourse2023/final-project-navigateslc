@@ -115,7 +115,7 @@ function plotRadarChart() {
     //Append the labels at each axis
     axis.append("text")
         .attr("class", "legend")
-        .style("font-size", "15px")
+        .style("font-size", "20px")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
         .attr("x", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice*i - Math.PI/2); })
@@ -279,6 +279,7 @@ function plotRadarChart() {
 
 
 function plotDonutChart() {
+
     var cfg = {
         w: null,
         h: null,
@@ -328,9 +329,10 @@ function plotDonutChart() {
     // Create a pie chart function
     const pie = d3.pie().value(d => d.value);
 
-    const tooltip = d3.select("body").append("div")
+    const tooltip = g.append("div")
     .attr("class", "tooltip")
-    .style("opacity", 0);
+    // .style("opacity", 1);
+    .style("visibility", "hidden")
 
     // Create an arc function
     const arc = d3.arc()
@@ -351,17 +353,21 @@ function plotDonutChart() {
         .attr("fill-opacity", 0.1) // Set fill opacity
         .attr("stroke", (d, i) => color(i)) // Set stroke color
         .attr("stroke-opacity", 1) // Set stroke opacity
+        .attr("stroke-width", 2) // Set stroke width
         .style("filter" , "url(#glow)")
         .on("mouseover", function (event, d) {
             d3.select(this)
                 .transition().duration(200)
                 .attr("fill-opacity", 0.3); // Increase opacity on hover
+                
 
             // Show tooltip
             tooltip.transition()
                 .duration(200)
-                .style("opacity", 0.3);
-            tooltip.html(`${d.data.label}: ${d.data.value}`)
+                // .style("opacity", 0.3);
+                .style("visibility", "visible");
+
+            tooltip.html(`${d.label}: ${d.value}`)
                 .style("left", (event.pageX) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
@@ -373,7 +379,8 @@ function plotDonutChart() {
             // Hide tooltip
             tooltip.transition()
                 .duration(500)
-                .style("opacity", 0);
+                // .style("opacity", 0);
+                .style("visibility", "hidden");
         });
 
     // Add text labels to each arc
