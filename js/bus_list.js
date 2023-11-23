@@ -1,6 +1,9 @@
 function bus_route()
 {   
     d3.select('#data').selectAll('ul').remove();
+    d3.select('#data').select(".radarChartSvg").remove();
+    d3.select('#data').select(".donutChartSvg").remove();
+
     block_layer.clearLayers();
     const busListContainer = d3.select('#data').append('ul').style('list-style-type', 'none');
 

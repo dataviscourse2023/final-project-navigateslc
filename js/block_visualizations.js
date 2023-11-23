@@ -1,5 +1,5 @@
 function plotRadarChart() {
-    // console.log(globalApplicationState.radarChartData);
+    console.log(globalApplicationState.radarChartData);
 
     var cfg = {
         w: null,
@@ -49,7 +49,7 @@ function plotRadarChart() {
         })
     );
 
-    // console.log(maxValue);
+    console.log(maxValue);
 
     var allAxis = Object.keys(globalApplicationState.radarChartData);
     var total = allAxis.length;
@@ -223,7 +223,7 @@ function plotRadarChart() {
             newX =  parseFloat(d3.select(this).attr('cx')) - 10;
             newY =  parseFloat(d3.select(this).attr('cy')) - 10;
 
-            // console.log(newX, newY)
+            console.log(newX, newY)
                     
             tooltip
             .attr('x', newX)
@@ -279,7 +279,6 @@ function plotRadarChart() {
 
 
 function plotDonutChart() {
-
     var cfg = {
         w: null,
         h: null,
@@ -391,5 +390,226 @@ function plotDonutChart() {
         .text(d => d.data.label)
         .style("text-anchor", "middle");
 
+}
 
+var southWest = L.latLng(40, -111),
+  northEast = L.latLng(41, -112),
+  bounds = L.latLngBounds(southWest, northEast);
+
+var field = ""
+
+
+function find_values(final_key)
+{
+  if (field == 'Households')
+  {
+    for(let i = 0; i< globalApplicationState.assortedData.length; i++)
+    {
+        if (globalApplicationState.assortedData[i]['final_key'] == final_key)
+        {
+            if (isNaN(parseFloat(globalApplicationState.assortedData[i]['Households:']))==0)
+            {
+              return parseFloat(globalApplicationState.assortedData[i]['Households:'])
+            }
+        }
+    }
+  }
+  if (field == 'Total Population')
+  {
+    for(let i = 0; i< globalApplicationState.assortedData.length; i++)
+    {
+        if (globalApplicationState.assortedData[i]['final_key'] == final_key)
+        {
+            if(isNaN(parseFloat(globalApplicationState.assortedData[i]['Total Population:']))==0)
+            {
+             return parseFloat(globalApplicationState.assortedData[i]['Total Population:'])
+            }
+        }
+    }
+  }
+  if (field == 'Median Gross Rent')
+  {
+    for(let i = 0; i< globalApplicationState.rentData.length; i++)
+    {
+        if (globalApplicationState.rentData[i]['final_key'] == final_key)
+        {
+            if(isNaN(parseFloat(globalApplicationState.rentData[i]['MedianGrossRent']))==0)
+            {
+            return parseFloat(globalApplicationState.rentData[i]['MedianGrossRent'])
+            }
+        }
+    }
+
+  }
+
+  if (field == "")
+  {
+    return 0;
+  }
+
+  return 0;
+}
+
+
+function getColor(d) {
+  
+  if(field == 'Households')
+  {
+    var data = []
+    for(let i = 0; i< globalApplicationState.assortedData.length;i++)
+    {
+        data.push(parseFloat(globalApplicationState.assortedData[i]['Households:']))
+    }
+    myColor = d3.scaleLinear()
+    .domain(d3.extent(data, function(d) { return d; }))
+    .range(["white", "red"])
+
+    return myColor(d)
+  }
+  if(field == 'Total Population')
+  {
+    var data = []
+    for(let i = 0; i< globalApplicationState.assortedData.length;i++)
+    {
+        data.push(parseFloat(globalApplicationState.assortedData[i]['Total Population:']))
+    }
+    myColor = d3.scaleLinear()
+    .domain(d3.extent(data, function(d) { return d; }))
+    .range(["white", "red"])
+
+    return myColor(d)
+  }
+  if(field == 'Median Gross Rent')
+  {
+    var data = []
+    for(let i = 0; i< globalApplicationState.rentData.length;i++)
+    {
+        data.push(parseFloat(globalApplicationState.rentData[i]['MedianGrossRent']))
+    }
+    myColor = d3.scaleLinear()
+    .domain(d3.extent(data, function(d) { return d; }))
+    .range(["white", "red"])
+
+    return myColor(d)
+  }
+
+  if(field == "")
+  {
+    return "white"
+  }
+
+    return "white"
+}
+
+function getOpacity(d) {
+  
+    if(field == 'Households')
+    {
+      var data = []
+      for(let i = 0; i< globalApplicationState.assortedData.length;i++)
+      {
+          data.push(parseFloat(globalApplicationState.assortedData[i]['Households:']))
+      }
+      myColor = d3.scaleLinear()
+      .domain(d3.extent(data, function(d) { return d; }))
+      .range([0,0.7])
+  
+      return myColor(d)
+    }
+    if(field == 'Total Population')
+    {
+      var data = []
+      for(let i = 0; i< globalApplicationState.assortedData.length;i++)
+      {
+          data.push(parseFloat(globalApplicationState.assortedData[i]['Total Population:']))
+      }
+      myColor = d3.scaleLinear()
+      .domain(d3.extent(data, function(d) { return d; }))
+      .range([0,0.7])
+  
+      return myColor(d)
+    }
+    if(field == 'Median Gross Rent')
+    {
+      var data = []
+      for(let i = 0; i< globalApplicationState.rentData.length;i++)
+      {
+          data.push(parseFloat(globalApplicationState.rentData[i]['MedianGrossRent']))
+      }
+      myColor = d3.scaleLinear()
+      .domain(d3.extent(data, function(d) { return d; }))
+      .range([0,0.7])
+  
+      return myColor(d)
+    }
+
+    if(field == "")
+    {
+        return 0;
+    }
+
+    return 0;
+  }
+  
+
+function style(feature) {
+  if (feature['properties']['final_key'] == globalApplicationState.selectedBlockGroup)
+  {
+  return {
+      fillColor: getColor(find_values(feature['properties']['final_key'])),
+      weight: 5,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+  };
+}
+else {
+  return {
+    fillColor: getColor(find_values(feature['properties']['final_key'])),
+    weight: 2,
+    opacity: 0.5,
+    color: 'black',
+    fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+};
+}
+}
+
+function click_block_group(feature, layer) {
+  //bind click
+  layer.on('click', function (e) {
+    console.log(find_values(feature['properties']['final_key']))
+  globalApplicationState.selectedBlockGroup = feature['properties']['final_key']
+  block_layer.clearLayers();
+  minimal_block_group_layer();
+
+  });
+
+}
+
+function minimal_block_group_layer()
+{
+  block_layer.clearLayers();
+  geojson = L.geoJson(globalApplicationState.BlockGroups,{style: style, onEachFeature: click_block_group}).addTo(block_layer);
+}
+
+function heatmap_toggle()
+{
+  var heatmap_options = ["","Households", "Total Population","Median Gross Rent"];
+
+  var select = d3.select('#data')
+  .append('select')
+  	.attr('class','select')
+    .on('change',onchange)
+
+  var options = select
+  .selectAll('option')
+	.data(heatmap_options).enter()
+	.append('option')
+		.text(function (d) { return d; });
+
+    function onchange() {
+      selectValue = d3.select('select').property('value')
+      field = selectValue
+      minimal_block_group_layer()
+    };
 }

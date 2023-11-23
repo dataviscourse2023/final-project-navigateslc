@@ -1,5 +1,8 @@
 function trail_route() {
     d3.select('#data').selectAll('ul').remove();
+    d3.select('#data').select(".radarChartSvg").remove();
+    d3.select('#data').select(".donutChartSvg").remove();
+
     bus_route_layer.clearLayers();
     block_layer.clearLayers();
     trail_route_layer.clearLayers();
