@@ -12,8 +12,9 @@ async function loadData () {
   const assortedData = await d3.csv('data/new_assorted_data.csv')
   const rentData = await d3.csv('data/new_rent_data.csv')
   const rentByAreaData = await d3.csv('data/Utah_rent_by_area.csv')
+  const weatherData = await d3.csv('data/Utah_weather_yearround.csv')
 
-  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData, rentData, rentByAreaData };
+  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData, rentData, rentByAreaData, weatherData };
   // return {parks, healthServices}
 }
 
@@ -32,6 +33,7 @@ const globalApplicationState = {
   assortedData: null,
   rentData: null,
   rentByAreaData: null,
+  weatherData: null,
   selectedBlockGroup: '',
   selectedbusRoute: ''
 };
@@ -77,6 +79,8 @@ loadData().then((loadedData) => {
   globalApplicationState.rentData = loadedData.rentData;
 
   globalApplicationState.rentByAreaData = loadedData.rentByAreaData;
+
+  globalApplicationState.weatherData = loadedData.weatherData;
 
 
   render_map()
@@ -130,8 +134,13 @@ loadData().then((loadedData) => {
         // Filter the data to show only macroscopic views
         isMacroscopicClicked = true;
         macroscopic_view();
+        window.scrollBy({
+          top: 800,
+          behavior: 'smooth'
+        });
       } else {
         isMacroscopicClicked = false;
+        d3.select('.macroscopic').selectAll('*').remove();
       }
 
       // Change the color of the active filter button
@@ -141,7 +150,4 @@ loadData().then((loadedData) => {
       button.classList.add('active');
     });
   });
-
-
-
-})
+});

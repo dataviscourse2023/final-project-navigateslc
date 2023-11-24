@@ -27,6 +27,20 @@ header {
   border-radius: 0;
 }
 
+#data-selector{
+  display: flex;
+  width: 10%;
+  font-size: 20px;
+  font-family: 'Montserrat', sans-serif;
+  justify-content: center;
+  background-color: #ffffff;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+}
+
 .filter-button {
   background-color: #53A2BE;
   color: #ffffff;
