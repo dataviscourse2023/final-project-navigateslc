@@ -11,8 +11,10 @@ async function loadData () {
   const crimeData = await d3.csv('data/CrimeByAreas.csv')
   const assortedData = await d3.csv('data/new_assorted_data.csv')
   const rentData = await d3.csv('data/new_rent_data.csv')
+  const rentByAreaData = await d3.csv('data/Utah_rent_by_area.csv')
+  const weatherData = await d3.csv('data/Utah_weather_yearround.csv')
 
-  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData, rentData };
+  return { cityBlocks, BlockGroups, parks, healthServices, busRoutes, trails, groceryStores, streetData, crimeData, assortedData, rentData, rentByAreaData, weatherData };
   // return {parks, healthServices}
 }
 
@@ -30,6 +32,8 @@ const globalApplicationState = {
   crimeData: null,
   assortedData: null,
   rentData: null,
+  rentByAreaData: null,
+  weatherData: null,
   selectedBlockGroup: '',
   selectedbusRoute: '',
   radarChartData: null,
@@ -76,6 +80,10 @@ loadData().then((loadedData) => {
 
   globalApplicationState.rentData = loadedData.rentData;
 
+  globalApplicationState.rentByAreaData = loadedData.rentByAreaData;
+
+  globalApplicationState.weatherData = loadedData.weatherData;
+
 
   render_map()
 
@@ -102,7 +110,8 @@ loadData().then((loadedData) => {
         d3.select('#data').selectAll('*').remove();
         block_group_layer();
         heatmap_toggle();
-        isBlockWiseClicked = true;
+        if(!isMacroscopicClicked)
+          isBlockWiseClicked = true;
       } else {
         isBlockWiseClicked = false;
         block_layer.clearLayers()
@@ -114,7 +123,8 @@ loadData().then((loadedData) => {
         trail_route_layer.clearLayers();
         d3.select('#data').selectAll('*').remove();
         bus_route();
-        isRoutesClicked = true;
+        if(!isMacroscopicClicked)
+          isRoutesClicked = true;
       } else {
         bus_route_layer.clearLayers();
         isRoutesClicked = false;
@@ -126,7 +136,8 @@ loadData().then((loadedData) => {
         trail_route_layer.clearLayers();
         d3.select('#data').selectAll('*').remove();
         trail_route();
-        isTrailsClicked = true;
+        if(!isMacroscopicClicked)
+          isTrailsClicked = true;
       } else {
         trail_route_layer.clearLayers();
         isTrailsClicked = false;
@@ -140,11 +151,15 @@ loadData().then((loadedData) => {
       if (action === 'macroscopic-view' && !isMacroscopicClicked) {
         // Filter the data to show only macroscopic views
         isMacroscopicClicked = true;
+        macroscopic_view();
+        window.scrollBy({
+          top: 800,
+          behavior: 'smooth'
+        });
       } else {
         isMacroscopicClicked = false;
+        d3.select('.macroscopic').selectAll('*').remove();
       }
-      // console.log(isBlockWiseClicked);
-      // console.log(isTrailsClicked);
 
       // Change the color of the active filter button
       filterButtons.forEach(button => {
@@ -153,7 +168,4 @@ loadData().then((loadedData) => {
       button.classList.add('active');
     });
   });
-
-
-
-})
+});
