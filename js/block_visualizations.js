@@ -1,5 +1,5 @@
 function plotRadarChart() {
-    console.log(globalApplicationState.radarChartData);
+    // console.log(globalApplicationState.radarChartData);
 
     var cfg = {
         w: null,
@@ -49,7 +49,7 @@ function plotRadarChart() {
         })
     );
 
-    console.log(maxValue);
+    // console.log(maxValue);
 
     var allAxis = Object.keys(globalApplicationState.radarChartData);
     var total = allAxis.length;
@@ -199,7 +199,13 @@ function plotRadarChart() {
         .data(data)
         .enter().append("g")
         .attr("class", "radarCircleWrapper");
-        
+    
+    var tooltip = g.append("text")
+    .attr("class", "tooltip")
+    .style("opacity", 0)
+    .style("visibility", "hidden");
+    
+    
     //Append a set of invisible circles on top for the mouseover pop-up
     blobCircleWrapper.selectAll(".radarInvisibleCircle")
         .data(function(d,i) { return d; })
@@ -211,30 +217,29 @@ function plotRadarChart() {
         .style("fill", "none")
         .style("pointer-events", "all")
         .on("mouseover", function(d,i) {
-            newX =  parseFloat(d3.select(this).attr('cx')) - 10;
-            newY =  parseFloat(d3.select(this).attr('cy')) - 10;
+            newX =  parseFloat(d3.select(this).attr('cx')) + 15;
+            newY =  parseFloat(d3.select(this).attr('cy')) - 15;
 
-            console.log(newX, newY)
+            // console.log(newX, newY)
                     
             tooltip
             .attr('x', newX)
             .attr('y', newY)
-            .text((d.value * 100).toFixed(2) + "%")
-            .transition().duration(200)
-            // .style('opacity', 1);
+            .attr("dy", "0.35em")
+            .style("font-size", "20px")
+            .text((i.value * 100).toFixed(2) + "%");
+
+            // console.log(i.value)
+
+            tooltip.transition().duration(200)
+            .style('opacity', 1)
             .style("visibility", "visible");
         })
         .on("mouseout", function(){
             tooltip.transition().duration(200)
-                // .style("opacity", 0);
-                .style("visibility", "hidden");
+            .style("opacity", 0)
+            .style("visibility", "hidden");
         });
-        
-    //Set up the small tooltip for when you hover over a circle
-    var tooltip = g.append("text")
-        .attr("class", "tooltip")
-        // .style("opacity", 0);
-        .style("visibility", "hidden");
 
     //Wraps SVG text	
     function wrap(text, width) {
@@ -317,11 +322,6 @@ function plotDonutChart() {
     // Create a pie chart function
     const pie = d3.pie().value(d => d.value);
 
-    const tooltip = g.append("div")
-    .attr("class", "tooltip")
-    // .style("opacity", 1);
-    .style("visibility", "hidden")
-
     // Create an arc function
     const arc = d3.arc()
         .outerRadius(Math.min(cfg.w, cfg.h) / 2 - 10)
@@ -333,7 +333,7 @@ function plotDonutChart() {
         .enter()
         .append("g")
         .attr("class", "arc");
-
+    
     // Append path elements for each arc
     arcs.append("path")
         .attr("d", arc)
@@ -347,43 +347,28 @@ function plotDonutChart() {
             d3.select(this)
                 .transition().duration(200)
                 .attr("fill-opacity", 0.3); // Increase opacity on hover
-                
 
-            // Show tooltip
-            tooltip.transition()
-                .duration(200)
-                // .style("opacity", 0.3);
-                .style("visibility", "visible");
-
-            tooltip.html(`${d.label}: ${d.value}`)
-                .style("left", (event.pageX) + "px")
-                .style("top", (event.pageY - 28) + "px");
         })
         .on("mouseout", function () {
             d3.select(this)
                 .transition().duration(200)
                 .attr("fill-opacity", 0.1); // Restore original opacity
 
-            // Hide tooltip
-            tooltip.transition()
-                .duration(500)
-                // .style("opacity", 0);
-                .style("visibility", "hidden");
+
         });
 
-    // Add text labels to each arc
-    arcs.append("text")
-        .attr("transform", d => "translate(" + arc.centroid(d) + ")")
-        .attr("dy", "0.35em")
-        .text(d => d.data.label)
-        .style("text-anchor", "middle");
-
+        // Add labels to each arc
         arcs.filter(d => d.data.value !== 0)
         .append("text")
         .attr("transform", d => "translate(" + arc.centroid(d) + ")")
-        .attr("dy", "0.35em")
+        .attr("dy", "-0.5em") // Adjust the vertical position
+        .style("text-anchor", "middle")
         .text(d => d.data.label)
-        .style("text-anchor", "middle");
+        .append("tspan")
+        .attr("x", 0)
+        .attr("dy", "1.2em") // Adjust the vertical position for the value
+        .style("font-weight", "bold")
+        .text(d => `${d.data.value} units`);
 
 }
 
@@ -613,12 +598,12 @@ function click_block_group(feature, layer) {
                               YouthPopulation: ((parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population'])).toFixed(2)}
   
   
-  console.log(data_for_radar_chart);
+//   console.log(data_for_radar_chart);
 
   var data_for_donut_chart = {RenterOccupied: filteredAssortedData[0]['Occupied Housing Units: Renter Occupied'],
                               OwnerOccupied: filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']}
   
-  console.log(data_for_donut_chart);
+//   console.log(data_for_donut_chart);
 
   globalApplicationState.radarChartData = data_for_radar_chart;
   globalApplicationState.donutChartData = data_for_donut_chart; 
