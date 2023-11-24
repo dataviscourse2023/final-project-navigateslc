@@ -38,6 +38,14 @@ function bus_route()
       const busName = listItem.append('span')
           .text("Route " + sortedRoutes[i]['properties']['LineAbbr'] + " : " + sortedRoutes[i]['properties']['LineName'])
           .style('color', frequency <= 15 ? 'green' : 'blue')
+          .on('mouseover',function(mouse)
+          {
+            busName.style('background-color','rgb(211,211,211)');
+          })
+          .on('mouseleave',function(mouse)
+          {
+            busName.style('background-color','');
+          })
 
       listItem.append('br');
 
@@ -149,6 +157,14 @@ function bus_style(feature) {
     const busName = listItem.append('span')
         .text("Route " + sortedRoutes[i]['properties']['LineAbbr'] + " : " + sortedRoutes[i]['properties']['LineName'])
         .style('color', frequency <= 15 ? 'green' : 'blue')
+        .on('mouseover',function(mouse)
+        {
+          busName.style('background-color','rgb(211,211,211)');
+        })
+        .on('mouseleave',function(mouse)
+        {
+          busName.style('background-color','');
+        })
 
     listItem.append('br');
 
@@ -161,10 +177,8 @@ function bus_style(feature) {
               {
                 map.removeLayer(layer)
               }
-              //console.log(layer['feature']['geometry']['type'])
             }  
         });
-        //  geojson = L.geoJson(globalApplicationState.busRoutes['features'][i]).addTo(bus_route_layer);
         geojson = L.geoJson(sortedRoutes[i], {
           style: {
               color: frequency <= 15 ? 'green' : 'blue' // Change line color based on frequency

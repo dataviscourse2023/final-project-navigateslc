@@ -427,7 +427,7 @@ function find_values(final_key)
     return 0;
   }
 
-  return 0;
+  return -1;
 }
 
 
@@ -478,7 +478,7 @@ function getColor(d) {
     return "white"
   }
 
-    return "white"
+    //return "white"
 }
 
 function getOpacity(d) {
@@ -528,7 +528,7 @@ function getOpacity(d) {
         return 0;
     }
 
-    return 0;
+    //return 0;
   }
   
 
@@ -617,7 +617,13 @@ function click_block_group(feature, layer) {
 
     if(field != "")
     {
-      layer.bindPopup(field + ":" + find_values(feature['properties']['final_key'].toString())).openPopup();
+      if(find_values(feature['properties']['final_key'])>0)
+      {
+         layer.bindPopup(field + ":" + find_values(feature['properties']['final_key'].toString())).openPopup();
+      }
+      else{
+        layer.bindPopup('No Data').openPopup();
+      }
     }
 
 
