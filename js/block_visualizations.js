@@ -227,7 +227,7 @@ function plotRadarChart() {
             .attr('y', newY)
             .attr("dy", "0.35em")
             .style("font-size", "20px")
-            .text((i.value * 100).toFixed(2) + "%");
+            .text((i.value * 100).toFixed(0) + "%");
 
             // console.log(i.value)
 
