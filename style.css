@@ -66,14 +66,14 @@ header {
 #map {
   height: 800px;
   flex: 1;
-  width: 50%;
+  width: 60%;
   background-color: #F2F2F2;
 }
 
 #data {
   height: 800px;
   flex: 1;
-  width: 50%;
+  width: 40%;
   overflow: scroll;
   background-color: #F2F2F2;
 }
