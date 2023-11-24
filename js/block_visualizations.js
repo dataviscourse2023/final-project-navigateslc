@@ -652,3 +652,4 @@ function heatmap_toggle()
       block_group_layer()
     };
 }
+

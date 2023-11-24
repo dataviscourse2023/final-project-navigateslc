@@ -118,11 +118,16 @@ loadData().then((loadedData) => {
       }  
       if (action === 'bus-routes' && !isRoutesClicked) {
         // Filter the data to show only bus routes
+        map.setView([40.7608,-111.8910], 10);
         block_layer.clearLayers();
         bus_route_layer.clearLayers();
         trail_route_layer.clearLayers();
+        globalApplicationState.selectedBlockGroup =  ""
+        field = ""
         d3.select('#data').selectAll('*').remove();
+        bus_toggle();
         bus_route();
+        //bus_toggle();
         if(!isMacroscopicClicked)
           isRoutesClicked = true;
       } else {
