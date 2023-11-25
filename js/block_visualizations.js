@@ -1,6 +1,13 @@
 function plotRadarChart() {
     // console.log(globalApplicationState.radarChartData);
 
+    var isAllValuesZero = Object.keys(globalApplicationState.radarChartData)
+    .filter(key => key !== 'MedianRent')
+    .every(key => {
+      const value = parseFloat(globalApplicationState.radarChartData[key]);
+      return value === 0 || value === '0' || isNaN(value);
+    });
+
     var cfg = {
         w: null,
         h: null,
@@ -31,6 +38,28 @@ function plotRadarChart() {
 
     var svgWidthPercentage = 100;
     var svgHeightPercentage = 50;
+
+    
+    if (isAllValuesZero) {
+        container.select(".radarChartSvg").remove();
+
+        var svg = container.append("svg")
+        .attr("width", svgWidthPercentage + "%")
+        .attr("height", svgHeightPercentage + "%")
+        .attr("class", "radarChartSvg")
+        .attr("viewBox", `0 0 ${containerWidth} ${containerHeight}`);
+
+        svg.append("text")
+        .attr("class", "noDataMessage")
+        .attr("x", containerWidth / 2)
+        .attr("y", containerHeight / 2)
+        .style("text-anchor", "middle")
+        .style("alignment-baseline", "middle")
+        .style("font-size", "20px")
+        .text("No data available for this block");
+
+        return;
+    }
 
     var svg = container.append("svg")
     .attr("width", svgWidthPercentage + "%")
@@ -427,7 +456,7 @@ function find_values(final_key)
     return 0;
   }
 
-  return -1;
+  return 0;
 }
 
 
@@ -478,7 +507,7 @@ function getColor(d) {
     return "white"
   }
 
-    //return "white"
+    return "white"
 }
 
 function getOpacity(d) {
@@ -528,7 +557,7 @@ function getOpacity(d) {
         return 0;
     }
 
-    //return 0;
+    return 0;
   }
   
 
@@ -561,49 +590,58 @@ function click_block_group(feature, layer) {
   block_layer.clearLayers();
   block_group_layer();
 
-  // Add the code for the block wise visualizations here.
 
-  // Filter assorted_data based on selectedBlockGroup
-  var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
-    return data['final_key'] == globalApplicationState.selectedBlockGroup;
-  });
-  // console.log(filteredAssortedData[0]);
-
-  var filteredRentData = globalApplicationState.rentData.filter(function (data) {
-    return data['final_key'] == globalApplicationState.selectedBlockGroup;
-  });
-  // console.log(filteredRentData[0]);
-
-  var maxMedianGrossRent = d3.max(globalApplicationState.rentData, function (d) {
-    return parseFloat(d.MedianGrossRent);
-  });
-
-  var maxPopulationDensity = d3.max(globalApplicationState.assortedData, function (d) {
-    return parseFloat(d['Population Density (Per Sq. Mile)']);
-  });
-
-  var maxMedianHouseholdIncome = d3.max(globalApplicationState.assortedData, function (d) {
-    return parseFloat(d['Median Household Income (In 2021 Inflation Adjusted Dollars)']);
-  });
-
-  // console.log(globalApplicationState.rentData);
-
-  // console.log(maxMedianGrossRent);
-
-
-  var data_for_radar_chart = {MedianHouseholdIncome: (filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)']/maxMedianHouseholdIncome).toFixed(2), 
-                              PopulationDensity: (filteredAssortedData[0]['Population Density (Per Sq. Mile)']/maxPopulationDensity).toFixed(2), 
-                              MedianRent: (filteredRentData[0].MedianGrossRent/maxMedianGrossRent).toFixed(2), 
-                              GenderRatio: Math.min((filteredAssortedData[0]['Total Population: Male']/filteredAssortedData[0]['Total Population: Female']).toFixed(2), (filteredAssortedData[0]['Total Population: Female']/filteredAssortedData[0]['Total Population: Male']).toFixed(2)), 
-                              YouthPopulation: ((parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population'])).toFixed(2)}
+    // Filter assorted_data based on selectedBlockGroup
+    var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
+        return data['final_key'] == globalApplicationState.selectedBlockGroup;
+      });
   
+      var filteredRentData = globalApplicationState.rentData.filter(function (data) {
+        return data['final_key'] == globalApplicationState.selectedBlockGroup;
+      });
   
-//   console.log(data_for_radar_chart);
+      var maxMedianGrossRent = d3.max(globalApplicationState.rentData, function (d) {
+        return parseFloat(d.MedianGrossRent);
+      });
+  
+      var maxPopulationDensity = d3.max(globalApplicationState.assortedData, function (d) {
+        return parseFloat(d['Population Density (Per Sq. Mile)']);
+      });
+  
+      var maxMedianHouseholdIncome = d3.max(globalApplicationState.assortedData, function (d) {
+        return parseFloat(d['Median Household Income (In 2021 Inflation Adjusted Dollars)']);
+      });
+  
+      var data_for_radar_chart = {
+        MedianHouseholdIncome: (filteredAssortedData[0] && filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)']) ?
+          (filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)'] / maxMedianHouseholdIncome).toFixed(2) :
+          0,
+        PopulationDensity: (filteredAssortedData[0] && filteredAssortedData[0]['Population Density (Per Sq. Mile)']) ?
+          (filteredAssortedData[0]['Population Density (Per Sq. Mile)'] / maxPopulationDensity).toFixed(2) :
+          0,
+        MedianRent: (filteredRentData[0] && filteredRentData[0].MedianGrossRent) ?
+          (filteredRentData[0].MedianGrossRent / maxMedianGrossRent).toFixed(2) :
+          0,
+        GenderRatio: (filteredAssortedData[0] && filteredAssortedData[0]['Total Population: Male'] && filteredAssortedData[0]['Total Population: Female']) ?
+          Math.min((filteredAssortedData[0]['Total Population: Male'] / filteredAssortedData[0]['Total Population: Female']).toFixed(2), (filteredAssortedData[0]['Total Population: Female'] / filteredAssortedData[0]['Total Population: Male']).toFixed(2)) :
+          0,
+        YouthPopulation: (filteredAssortedData[0] && filteredAssortedData[0]['Total Population: 15 to 17 Years'] && filteredAssortedData[0]['Total Population: 18 to 24 Years'] && filteredAssortedData[0]['Total Population']) ?
+          ((parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population'])).toFixed(2) :
+          0
+      };
+  
+      var data_for_donut_chart = {
+        RenterOccupied: (filteredAssortedData[0] && filteredAssortedData[0]['Occupied Housing Units: Renter Occupied']) ?
+          filteredAssortedData[0]['Occupied Housing Units: Renter Occupied'] :
+          0,
+        OwnerOccupied: (filteredAssortedData[0] && filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']) ?
+          filteredAssortedData[0]['Occupied Housing Units: Owner Occupied'] :
+          0
+      };
 
-  var data_for_donut_chart = {RenterOccupied: filteredAssortedData[0]['Occupied Housing Units: Renter Occupied'],
-                              OwnerOccupied: filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']}
-  
-//   console.log(data_for_donut_chart);
+    //   console.log(data_for_radar_chart)
+    //   console.log(data_for_donut_chart)
+
 
   globalApplicationState.radarChartData = data_for_radar_chart;
   globalApplicationState.donutChartData = data_for_donut_chart; 
@@ -617,52 +655,11 @@ function click_block_group(feature, layer) {
 
     if(field != "")
     {
-      if(find_values(feature['properties']['final_key'])>0)
-      {
-         layer.bindPopup(field + ":" + find_values(feature['properties']['final_key'].toString())).openPopup();
-      }
-      else{
-        layer.bindPopup('No Data').openPopup();
-      }
+      layer.bindPopup(field + ":" + find_values(feature['properties']['final_key'].toString())).openPopup();
     }
 
-    layer.setStyle({
-      fillColor: getColor(find_values(feature['properties']['final_key'])),
-      weight: 5,
-      opacity: 1,
-      color: 'black',
-      fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
-
-    })
 
 });
-
-  layer.on('mouseout',function(e){
-
-    if(layer['feature']['properties']['final_key'] == globalApplicationState.selectedBlockGroup)
-    {
-
-    layer.setStyle({
-      fillColor: getColor(find_values(feature['properties']['final_key'])),
-      weight: 5,
-      opacity: 1,
-      color: 'black',
-      fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
-      //console.log(layer['feature']['properties']['final_key'])
-   })
-    }
-
-    else{
-      layer.setStyle({
-        fillColor: getColor(find_values(feature['properties']['final_key'])),
-        weight: 1,
-        opacity: 0.5,
-        color: 'black',
-        fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
-        //console.log(layer['feature']['properties']['final_key'])
-     })
-    }
-  });
 
 }
 
@@ -693,4 +690,3 @@ function heatmap_toggle()
       block_group_layer()
     };
 }
-
