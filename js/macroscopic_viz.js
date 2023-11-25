@@ -215,7 +215,7 @@ function weather_macroscopic_view(){
         .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');;
 
     function fahrenheitToCelsius(celsius) {
-        return `${((parseFloat(celsius) - 32) *5/9).toFixed(0)}`;
+        return `${(parseFloat(celsius) - 32) *5/9}`;
     }
 
     function celsiusToFahrenheit(celsius) {

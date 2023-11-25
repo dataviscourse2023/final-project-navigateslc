@@ -626,8 +626,43 @@ function click_block_group(feature, layer) {
       }
     }
 
+    layer.setStyle({
+      fillColor: getColor(find_values(feature['properties']['final_key'])),
+      weight: 5,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+
+    })
 
 });
+
+  layer.on('mouseout',function(e){
+
+    if(layer['feature']['properties']['final_key'] == globalApplicationState.selectedBlockGroup)
+    {
+
+    layer.setStyle({
+      fillColor: getColor(find_values(feature['properties']['final_key'])),
+      weight: 5,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+      //console.log(layer['feature']['properties']['final_key'])
+   })
+    }
+
+    else{
+      layer.setStyle({
+        fillColor: getColor(find_values(feature['properties']['final_key'])),
+        weight: 1,
+        opacity: 0.5,
+        color: 'black',
+        fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+        //console.log(layer['feature']['properties']['final_key'])
+     })
+    }
+  });
 
 }
 

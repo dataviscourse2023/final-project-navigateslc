@@ -169,6 +169,7 @@ function bus_style(feature) {
     listItem.append('br');
 
     busName.on('click',function(mouse){
+        busName.style('background-color','rgb(211,211,211)');
         map.eachLayer(function (layer) {  
             if(layer['feature'] != undefined)
             {
@@ -196,6 +197,45 @@ function bus_style(feature) {
   legend.append('p').text('Blue: 30 minutes frequency').style('color', 'blue').style('margin', '5px 0');
 
   
+  });
+
+  layer.on('mouseover', function (e) {
+
+    layer.setStyle({
+      fillColor: 'white',
+      weight: 5,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: 0
+
+    })
+});
+
+  layer.on('mouseout',function(e){
+
+    if(layer['feature']['properties']['final_key'] == globalApplicationState.selectedBlockGroup)
+    {
+
+    layer.setStyle({
+      fillColor: 'white',
+      weight: 5,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: 0
+      //console.log(layer['feature']['properties']['final_key'])
+   })
+    }
+
+    else{
+      layer.setStyle({
+        fillColor: 'white',
+        weight: 1,
+        opacity: 0.5,
+        color: 'black',
+        fillOpacity: 0
+        //console.log(layer['feature']['properties']['final_key'])
+     })
+    }
   });
   
   }
