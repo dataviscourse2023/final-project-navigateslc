@@ -456,7 +456,7 @@ function find_values(final_key)
     return 0;
   }
 
-  return 0;
+  return -1;
 }
 
 
@@ -507,7 +507,7 @@ function getColor(d) {
     return "white"
   }
 
-    return "white"
+    //return "white"
 }
 
 function getOpacity(d) {
@@ -557,7 +557,7 @@ function getOpacity(d) {
         return 0;
     }
 
-    return 0;
+    //return 0;
   }
   
 
@@ -590,42 +590,42 @@ function click_block_group(feature, layer) {
   block_layer.clearLayers();
   block_group_layer();
 
+  
+  // Filter assorted_data based on selectedBlockGroup
+  var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
+    return data['final_key'] == globalApplicationState.selectedBlockGroup;
+  });
+  
+  var filteredRentData = globalApplicationState.rentData.filter(function (data) {
+    return data['final_key'] == globalApplicationState.selectedBlockGroup;
+  });
+  
+  var maxMedianGrossRent = d3.max(globalApplicationState.rentData, function (d) {
+    return parseFloat(d.MedianGrossRent);
+  });
 
-    // Filter assorted_data based on selectedBlockGroup
-    var filteredAssortedData = globalApplicationState.assortedData.filter(function (data) {
-        return data['final_key'] == globalApplicationState.selectedBlockGroup;
-      });
-  
-      var filteredRentData = globalApplicationState.rentData.filter(function (data) {
-        return data['final_key'] == globalApplicationState.selectedBlockGroup;
-      });
-  
-      var maxMedianGrossRent = d3.max(globalApplicationState.rentData, function (d) {
-        return parseFloat(d.MedianGrossRent);
-      });
-  
-      var maxPopulationDensity = d3.max(globalApplicationState.assortedData, function (d) {
-        return parseFloat(d['Population Density (Per Sq. Mile)']);
-      });
-  
-      var maxMedianHouseholdIncome = d3.max(globalApplicationState.assortedData, function (d) {
-        return parseFloat(d['Median Household Income (In 2021 Inflation Adjusted Dollars)']);
-      });
-  
-      var data_for_radar_chart = {
+  var maxPopulationDensity = d3.max(globalApplicationState.assortedData, function (d) {
+    return parseFloat(d['Population Density (Per Sq. Mile)']);
+  });
+
+  var maxMedianHouseholdIncome = d3.max(globalApplicationState.assortedData, function (d) {
+    return parseFloat(d['Median Household Income (In 2021 Inflation Adjusted Dollars)']);
+  });
+
+  var data_for_radar_chart = {
         MedianHouseholdIncome: (filteredAssortedData[0] && filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)']) ?
           (filteredAssortedData[0]['Median Household Income (In 2021 Inflation Adjusted Dollars)'] / maxMedianHouseholdIncome).toFixed(2) :
-          0,
-        PopulationDensity: (filteredAssortedData[0] && filteredAssortedData[0]['Population Density (Per Sq. Mile)']) ?
+          0, 
+                              PopulationDensity: (filteredAssortedData[0] && filteredAssortedData[0]['Population Density (Per Sq. Mile)']) ?
           (filteredAssortedData[0]['Population Density (Per Sq. Mile)'] / maxPopulationDensity).toFixed(2) :
-          0,
-        MedianRent: (filteredRentData[0] && filteredRentData[0].MedianGrossRent) ?
+          0, 
+                              MedianRent: (filteredRentData[0] && filteredRentData[0].MedianGrossRent) ?
           (filteredRentData[0].MedianGrossRent / maxMedianGrossRent).toFixed(2) :
-          0,
-        GenderRatio: (filteredAssortedData[0] && filteredAssortedData[0]['Total Population: Male'] && filteredAssortedData[0]['Total Population: Female']) ?
+          0, 
+                              GenderRatio: (filteredAssortedData[0] && filteredAssortedData[0]['Total Population: Male'] && filteredAssortedData[0]['Total Population: Female']) ?
           Math.min((filteredAssortedData[0]['Total Population: Male'] / filteredAssortedData[0]['Total Population: Female']).toFixed(2), (filteredAssortedData[0]['Total Population: Female'] / filteredAssortedData[0]['Total Population: Male']).toFixed(2)) :
-          0,
-        YouthPopulation: (filteredAssortedData[0] && filteredAssortedData[0]['Total Population: 15 to 17 Years'] && filteredAssortedData[0]['Total Population: 18 to 24 Years'] && filteredAssortedData[0]['Total Population']) ?
+          0, 
+                              YouthPopulation: (filteredAssortedData[0] && filteredAssortedData[0]['Total Population: 15 to 17 Years'] && filteredAssortedData[0]['Total Population: 18 to 24 Years'] && filteredAssortedData[0]['Total Population']) ?
           ((parseFloat(filteredAssortedData[0]['Total Population: 15 to 17 Years']) + parseFloat(filteredAssortedData[0]['Total Population: 18 to 24 Years'])) / parseFloat(filteredAssortedData[0]['Total Population'])).toFixed(2) :
           0
       };
@@ -634,7 +634,7 @@ function click_block_group(feature, layer) {
         RenterOccupied: (filteredAssortedData[0] && filteredAssortedData[0]['Occupied Housing Units: Renter Occupied']) ?
           filteredAssortedData[0]['Occupied Housing Units: Renter Occupied'] :
           0,
-        OwnerOccupied: (filteredAssortedData[0] && filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']) ?
+                              OwnerOccupied: (filteredAssortedData[0] && filteredAssortedData[0]['Occupied Housing Units: Owner Occupied']) ?
           filteredAssortedData[0]['Occupied Housing Units: Owner Occupied'] :
           0
       };
@@ -655,11 +655,52 @@ function click_block_group(feature, layer) {
 
     if(field != "")
     {
-      layer.bindPopup(field + ":" + find_values(feature['properties']['final_key'].toString())).openPopup();
+      if(find_values(feature['properties']['final_key'])>0)
+      {
+         layer.bindPopup(field + ":" + find_values(feature['properties']['final_key'].toString())).openPopup();
+      }
+      else{
+        layer.bindPopup('No Data').openPopup();
+      }
     }
 
+    layer.setStyle({
+      fillColor: getColor(find_values(feature['properties']['final_key'])),
+      weight: 5,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+
+    })
 
 });
+
+  layer.on('mouseout',function(e){
+
+    if(layer['feature']['properties']['final_key'] == globalApplicationState.selectedBlockGroup)
+    {
+
+    layer.setStyle({
+      fillColor: getColor(find_values(feature['properties']['final_key'])),
+      weight: 5,
+      opacity: 1,
+      color: 'black',
+      fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+      //console.log(layer['feature']['properties']['final_key'])
+   })
+    }
+
+    else{
+      layer.setStyle({
+        fillColor: getColor(find_values(feature['properties']['final_key'])),
+        weight: 1,
+        opacity: 0.5,
+        color: 'black',
+        fillOpacity: getOpacity(find_values(feature['properties']['final_key']))
+        //console.log(layer['feature']['properties']['final_key'])
+     })
+    }
+  });
 
 }
 
@@ -690,3 +731,4 @@ function heatmap_toggle()
       block_group_layer()
     };
 }
+
