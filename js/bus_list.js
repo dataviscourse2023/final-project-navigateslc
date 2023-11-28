@@ -71,7 +71,7 @@ function bus_route()
     const legend = d3.select('#data').append('div').attr('id', 'legend').style('position', 'fixed').style('top', '140px').style('right', '10px');
     legend.append('p').text('Legend:');
     legend.append('p').text('Green: 15 minutes frequency').style('color', 'green').style('margin', '5px 0');
-    legend.append('p').text('Blue: 30 minutes frequency').style('color', 'blue').style('margin', '5px 0');
+    legend.append('p').text('Blue: 30 / 60 minutes frequency').style('color', 'blue').style('margin', '5px 0');
 }
 
 function bus_style(feature) {
