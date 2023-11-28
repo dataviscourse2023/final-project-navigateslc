@@ -45,4 +45,6 @@ The files add_id.py and fixing_dataset.py are python scripts used for preprocess
 ## Project video
 
 ## Citations
+[d3](http://d3js.org/)
 [Openstreetmap](https://www.openstreetmap.org/copyright)
+[turf](https://turfjs.org/)
