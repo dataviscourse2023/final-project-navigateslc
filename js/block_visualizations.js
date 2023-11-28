@@ -1,5 +1,5 @@
 function plotRadarChart() {
-    // console.log(globalApplicationState.radarChartData);
+    console.log(globalApplicationState.radarChartData);
 
     var isAllValuesZero = Object.keys(globalApplicationState.radarChartData)
     .filter(key => key !== 'MedianRent')
@@ -88,7 +88,7 @@ function plotRadarChart() {
 
     var rScale = d3.scaleLinear()
         .range([0, radius])
-        .domain([0, maxValue]);
+        .domain([0, 1]);
 
 	
 	//Filter for the outside glow
@@ -135,8 +135,8 @@ function plotRadarChart() {
     axis.append("line")
         .attr("x1", 0)
         .attr("y1", 0)
-        .attr("x2", function(d, i){ return rScale(maxValue*1.1) * Math.cos(angleSlice*i - Math.PI/2); })
-        .attr("y2", function(d, i){ return rScale(maxValue*1.1) * Math.sin(angleSlice*i - Math.PI/2); })
+        .attr("x2", function(d, i){ return rScale(1.1) * Math.cos(angleSlice*i - Math.PI/2); })
+        .attr("y2", function(d, i){ return rScale(1.1) * Math.sin(angleSlice*i - Math.PI/2); })
         .attr("class", "line")
         .style("stroke", "white")
         .style("stroke-width", "2px");
@@ -147,8 +147,8 @@ function plotRadarChart() {
         .style("font-size", "20px")
         .attr("text-anchor", "middle")
         .attr("dy", "0.35em")
-        .attr("x", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.cos(angleSlice*i - Math.PI/2); })
-        .attr("y", function(d, i){ return rScale(maxValue * cfg.labelFactor) * Math.sin(angleSlice*i - Math.PI/2); })
+        .attr("x", function(d, i){ return rScale(cfg.labelFactor) * Math.cos(angleSlice*i - Math.PI/2); })
+        .attr("y", function(d, i){ return rScale(cfg.labelFactor) * Math.sin(angleSlice*i - Math.PI/2); })
         .text(function(d){return d})
         .call(wrap, cfg.wrapWidth);
 
@@ -167,6 +167,8 @@ function plotRadarChart() {
           return { label: key, value: parseFloat(globalApplicationState.radarChartData[key]) };
         })
       ];
+
+      console.log(data)
 
     //Create a wrapper for the blobs	
     var blobWrapper = g.selectAll(".radarWrapper")
@@ -208,7 +210,7 @@ function plotRadarChart() {
         .style("stroke", function(d,i) { return cfg.color(i); })
         .style("fill", "none")
         .style("filter" , "url(#glow)")
-        .transition().duration(1000).ease(d3.easeLinear);
+        // .transition().duration(1000).ease(d3.easeLinear);
 	
 
     //Append the circles
@@ -218,6 +220,7 @@ function plotRadarChart() {
         .attr("class", "radarCircle")
         .attr("r", cfg.dotRadius)
         .attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
+        // .attr("cx", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
         .attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
         .style("fill", function(d,i,j) { return cfg.color(j); })
         .style("fill-opacity", 0.8)
@@ -258,7 +261,7 @@ function plotRadarChart() {
             .style("font-size", "20px")
             .text((i.value * 100).toFixed(0) + "%");
 
-            // console.log(i.value)
+            console.log(i.value)
 
             tooltip.transition().duration(200)
             .style('opacity', 1)
@@ -361,7 +364,7 @@ function plotDonutChart() {
         .data(pie(donutData))
         .enter()
         .append("g")
-        .attr("class", "arc");
+        .attr("class", "arc")
     
     // Append path elements for each arc
     arcs.append("path")
