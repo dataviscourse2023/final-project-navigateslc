@@ -44,6 +44,7 @@ var map;
 var block_layer;
 var bus_route_layer;
 var trail_route_layer;
+var legend;
 
 loadData().then((loadedData) => {
 
@@ -102,12 +103,13 @@ loadData().then((loadedData) => {
       if (action === 'block-wise' && !isBlockWiseClicked) {
       // Filter the data to show only block-wise views
         map.setView([40.7608,-111.8910], 10);
-        field = ""
+        field = "Choose Field"
         globalApplicationState.selectedBlockGroup =  ""
         block_layer.clearLayers();
         bus_route_layer.clearLayers();
         trail_route_layer.clearLayers();
         d3.select('#data').selectAll('*').remove();
+        legend.remove();
         block_group_layer();
         heatmap_toggle();
         if(!isMacroscopicClicked)
@@ -123,8 +125,9 @@ loadData().then((loadedData) => {
         bus_route_layer.clearLayers();
         trail_route_layer.clearLayers();
         globalApplicationState.selectedBlockGroup =  ""
-        field = ""
+        field = "Choose Field"
         d3.select('#data').selectAll('*').remove();
+        legend.remove();
         bus_toggle();
         bus_route();
         //bus_toggle();
@@ -140,6 +143,7 @@ loadData().then((loadedData) => {
         bus_route_layer.clearLayers();
         trail_route_layer.clearLayers();
         d3.select('#data').selectAll('*').remove();
+        legend.remove();
         trail_route();
         if(!isMacroscopicClicked)
           isTrailsClicked = true;
