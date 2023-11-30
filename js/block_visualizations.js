@@ -440,33 +440,7 @@ function find_values(final_key)
     }
   }
 
-  if (field == 'Median Income')
-  {
-    for(let i = 0; i< globalApplicationState.assortedData.length; i++)
-    {
-        if (globalApplicationState.assortedData[i]['final_key'] == final_key)
-        {
-            if(isNaN(parseFloat(globalApplicationState.assortedData[i]['Median Household Income (In 2021 Inflation Adjusted Dollars)']))==0)
-            {
-             return parseFloat(globalApplicationState.assortedData[i]['Median Household Income (In 2021 Inflation Adjusted Dollars)'])
-            }
-        }
-    }
-  }
 
-  if (field == 'Population Density')
-  {
-    for(let i = 0; i< globalApplicationState.assortedData.length; i++)
-    {
-        if (globalApplicationState.assortedData[i]['final_key'] == final_key)
-        {
-            if(isNaN(parseFloat(globalApplicationState.assortedData[i]['Population Density (Per Sq. Mile)']))==0)
-            {
-             return parseFloat(globalApplicationState.assortedData[i]['Population Density (Per Sq. Mile)'])
-            }
-        }
-    }
-  }
 
   if (field == 'Median Gross Rent')
   {
@@ -522,33 +496,6 @@ function getColor(d) {
     return myColor(d)
   }
 
-  if(field == 'Median Income')
-  {
-    var data = []
-    for(let i = 0; i< globalApplicationState.assortedData.length;i++)
-    {
-        data.push(parseFloat(globalApplicationState.assortedData[i]['Median Household Income (In 2021 Inflation Adjusted Dollars)']))
-    }
-    myColor = d3.scaleLinear()
-    .domain(d3.extent(data, function(d) { return d; }))
-    .range(["white", "red"])
-
-    return myColor(d)
-  }
-
-  if(field == 'Population Density')
-  {
-    var data = []
-    for(let i = 0; i< globalApplicationState.assortedData.length;i++)
-    {
-        data.push(parseFloat(globalApplicationState.assortedData[i]['Population Density (Per Sq. Mile)']))
-    }
-    myColor = d3.scaleLinear()
-    .domain(d3.extent(data, function(d) { return d; }))
-    .range(["white", "red"])
-
-    return myColor(d)
-  }
 
   if(field == 'Median Gross Rent')
   {
@@ -593,34 +540,6 @@ function getOpacity(d) {
       for(let i = 0; i< globalApplicationState.assortedData.length;i++)
       {
           data.push(parseFloat(globalApplicationState.assortedData[i]['Total Population:']))
-      }
-      myColor = d3.scaleLinear()
-      .domain(d3.extent(data, function(d) { return d; }))
-      .range([0,0.7])
-  
-      return myColor(d)
-    }
-
-    if(field == 'Median Income')
-    {
-      var data = []
-      for(let i = 0; i< globalApplicationState.assortedData.length;i++)
-      {
-          data.push(parseFloat(globalApplicationState.assortedData[i]['Median Household Income (In 2021 Inflation Adjusted Dollars)']))
-      }
-      myColor = d3.scaleLinear()
-      .domain(d3.extent(data, function(d) { return d; }))
-      .range([0,0.7])
-  
-      return myColor(d)
-    }
-
-    if(field == 'Population Density')
-    {
-      var data = []
-      for(let i = 0; i< globalApplicationState.assortedData.length;i++)
-      {
-          data.push(parseFloat(globalApplicationState.assortedData[i]['Population Density (Per Sq. Mile)']))
       }
       myColor = d3.scaleLinear()
       .domain(d3.extent(data, function(d) { return d; }))
@@ -803,7 +722,7 @@ function block_group_layer()
 
 function heatmap_toggle()
 {
-  var heatmap_options = ["Choose Field","Households", "Total Population","Population Density","Median Income","Median Gross Rent"];
+  var heatmap_options = ["Choose Field","Households", "Total Population","Median Gross Rent"];
   // Add an svg
 
   var heat_text = d3.select('#data').append('text').text("   Heatmap:   ").attr('position','fixed');
@@ -857,33 +776,6 @@ function heatmap_toggle()
     }
   }
 
-  if(field == 'Median Income')
-  {
-    var data = []
-    for(let i = 0; i< globalApplicationState.assortedData.length;i++)
-    {
-        data.push(parseFloat(globalApplicationState.assortedData[i]['Median Household Income (In 2021 Inflation Adjusted Dollars)']))
-    }
-    limit = d3.extent(data, function(d) { return d; })
-    for(let i = 0; i < limit[1]; i += Math.floor(limit[1]/7))
-    {
-      grades.push(i)
-    }
-  }
-
-  if(field == 'Population Density')
-  {
-    var data = []
-    for(let i = 0; i< globalApplicationState.assortedData.length;i++)
-    {
-        data.push(parseFloat(globalApplicationState.assortedData[i]['Population Density (Per Sq. Mile)']))
-    }
-    limit = d3.extent(data, function(d) { return d; })
-    for(let i = 0; i < limit[1]; i += Math.floor(limit[1]/7))
-    {
-      grades.push(i)
-    }
-  }
 
   if(field == 'Median Gross Rent')
   {
@@ -899,7 +791,6 @@ function heatmap_toggle()
     }
   }
 
-    // loop through our density intervals and generate a label with a colored square for each interval
     for (var i = 0; i < grades.length; i++) {
       console.log(getColor(grades[i] + 1))
         div.innerHTML +=
