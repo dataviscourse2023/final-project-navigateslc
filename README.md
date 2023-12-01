@@ -41,7 +41,7 @@ The files add_id.py and fixing_dataset.py are python scripts used for preprocess
 
 
 ## Project website
-https://ankithboggaram.github.io/
+Github pages does not work with git LFS (which we are using). Please use the final release of our code to view the website
 
 ## Project video
 https://youtu.be/IfpbSF2XBuc
