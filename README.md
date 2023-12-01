@@ -41,8 +41,10 @@ The files add_id.py and fixing_dataset.py are python scripts used for preprocess
 
 
 ## Project website
+https://ankithboggaram.github.io/
 
 ## Project video
+https://youtu.be/IfpbSF2XBuc
 
 ## Citations
 [d3](http://d3js.org/)
